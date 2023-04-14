@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  moviedb:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+
+  movie.api:
+    image: ${DOCKER_REGISTRY-}movieapi
+    build:
+      context: .
+      dockerfile: src/Services/Movie/Movie.Api/Dockerfile
+
+volumes:
+  moviedb_volume:

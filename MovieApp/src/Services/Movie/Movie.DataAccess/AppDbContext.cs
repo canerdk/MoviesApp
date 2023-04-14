@@ -9,6 +9,12 @@ namespace Movie.DataAccess
         {            
         }
 
-        public DbSet<MovieModel> Films { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+            base.OnModelCreating(modelBuilder);
+        }
+
+        public DbSet<MovieModel> Movies { get; set; }
     }
 }

@@ -9,13 +9,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{13
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Movie", "Movie", "{F3D9A609-75D9-4EB8-83F4-226FADF01364}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie.Api", "src\Services\Movie\Movie.Api\Movie.Api.csproj", "{B8D9854E-A747-4758-835C-96BFA9DC8836}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movie.Api", "src\Services\Movie\Movie.Api\Movie.Api.csproj", "{B8D9854E-A747-4758-835C-96BFA9DC8836}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie.Business", "src\Services\Movie\Movie.Business\Movie.Business.csproj", "{E1560AB6-766F-4533-AF45-EE8ACF735903}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movie.Business", "src\Services\Movie\Movie.Business\Movie.Business.csproj", "{E1560AB6-766F-4533-AF45-EE8ACF735903}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie.DataAccess", "src\Services\Movie\Movie.DataAccess\Movie.DataAccess.csproj", "{850DB760-1329-490D-B0F3-01FF1845B595}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movie.DataAccess", "src\Services\Movie\Movie.DataAccess\Movie.DataAccess.csproj", "{850DB760-1329-490D-B0F3-01FF1845B595}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie.Entities", "src\Services\Movie\Movie.Entities\Movie.Entities.csproj", "{B85C920F-7E46-4645-9D1F-798FB03CD995}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movie.Entities", "src\Services\Movie\Movie.Entities\Movie.Entities.csproj", "{B85C920F-7E46-4645-9D1F-798FB03CD995}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{511C2257-579B-47CC-933B-BE07CA0F2EC5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{B85C920F-7E46-4645-9D1F-798FB03CD995}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B85C920F-7E46-4645-9D1F-798FB03CD995}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B85C920F-7E46-4645-9D1F-798FB03CD995}.Release|Any CPU.Build.0 = Release|Any CPU
+		{511C2257-579B-47CC-933B-BE07CA0F2EC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{511C2257-579B-47CC-933B-BE07CA0F2EC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{511C2257-579B-47CC-933B-BE07CA0F2EC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{511C2257-579B-47CC-933B-BE07CA0F2EC5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

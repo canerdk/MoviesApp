@@ -17,7 +17,6 @@ namespace Movie.Entities.Entities
         public string Overview { get; set; }
         public string PosterPath { get; set; }
         public string MediaType { get; set; }
-        public List<long> GenreIds { get; set; }
         public double Popularity { get; set; }
         public DateTime ReleaseDate { get; set; }
         public bool Video { get; set; }
