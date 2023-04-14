@@ -7,11 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Movie.DataAccess\Movie.DataAccess.csproj" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Concrete\" />
+    <ProjectReference Include="..\Movie.DataAccess\Movie.DataAccess.csproj" />
+    <ProjectReference Include="..\Movie.Entities\Movie.Entities.csproj" />
   </ItemGroup>
 
 </Project>

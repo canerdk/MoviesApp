@@ -2,7 +2,7 @@
 
 namespace Movie.Business.Abstract
 {
-    public interface IMovieService
+    public interface IMovieManager
     {
         Task<IEnumerable<MovieModel>> GetAllMovieAsync();
         Task<MovieModel> GetByIdAsync(int id);
