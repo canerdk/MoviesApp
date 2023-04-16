@@ -4,6 +4,8 @@ using Movie.Entities.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,10 +14,13 @@ namespace Movie.Business.Concrete
     public class MovieManager : IMovieManager
     {
         private readonly IMovieDAL _movieDAL;
+        private readonly HttpClient _httpClient;
 
-        public MovieManager(IMovieDAL movieDAL)
+        public MovieManager(IMovieDAL movieDAL, HttpClient httpClient)
         {
             _movieDAL = movieDAL;
+            _httpClient = httpClient;
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkZTVkYmU3Nzk1YjM4NzhiNTRjZDlhY2QyNDBhY2ExMCIsInN1YiI6IjY0Mzk4NmM0NzY0NmZkMDA3NjIwYzg3MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.fa3HXVQnQaRQh-GkJ-Mr40pIal3T6zORhquqxC2SJrE");
         }
 
         public async Task<MovieModel> AddAsync(MovieModel movie)
@@ -41,6 +46,18 @@ namespace Movie.Business.Concrete
         {
             var result = await _movieDAL.GetAsync(x => x.Id == id);
             return result;
+        }
+
+        public async Task<IEnumerable<MovieModel>> GetTrendingMoviesFrom()
+        {
+            var request = await _httpClient.GetAsync("https://api.themoviedb.org/3/trending/all/week?api_key=de5dbe7795b3878b54cd9acd240aca10");
+            if (request.IsSuccessStatusCode)
+            {
+                var result = await request.Content.ReadAsStringAsync();
+                return null;
+            }
+
+            return null;
         }
 
         public async Task<MovieModel> UpdateAsync(MovieModel movie)
