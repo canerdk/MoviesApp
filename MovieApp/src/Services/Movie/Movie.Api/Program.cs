@@ -15,7 +15,10 @@ builder.Services.AddBusinessService();
 
 builder.Services.AddDbContext<AppDbContext>(x =>
 {
-    x.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"));
+    x.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"), opt =>
+    {
+        opt.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName);
+    });
 });
 
 

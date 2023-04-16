@@ -7,7 +7,7 @@ namespace Movie.Business.Abstract
         Task<IEnumerable<MovieModel>> GetAllMovieAsync();
         Task<MovieModel> GetByIdAsync(int id);
         Task<MovieModel> AddAsync(MovieModel movie);
-        Task<MovieModel> AddRangeAsync(List<MovieModel> movies);
+        Task<bool> AddRangeAsync(List<MovieModel> movies);
         Task<MovieModel> UpdateAsync(MovieModel movie);
     }
 }

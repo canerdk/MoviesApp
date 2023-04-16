@@ -18,29 +18,41 @@ namespace Movie.Business.Concrete
             _movieDAL = movieDAL;
         }
 
-        public Task<MovieModel> AddAsync(MovieModel movie)
+        public async Task<MovieModel> AddAsync(MovieModel movie)
         {
-            throw new NotImplementedException();
+            var result = await _movieDAL.AddAsync(movie);
+            return result;
         }
 
-        public Task<MovieModel> AddRangeAsync(List<MovieModel> movies)
+        public async Task<bool> AddRangeAsync(List<MovieModel> movies)
         {
-            throw new NotImplementedException();
+            var result = await _movieDAL.AddRangeAsync(movies);
+
+            return result;
         }
 
-        public Task<IEnumerable<MovieModel>> GetAllMovieAsync()
+        public async Task<IEnumerable<MovieModel>> GetAllMovieAsync()
         {
-            throw new NotImplementedException();
+            var results = await _movieDAL.GetAllAsync();
+            return results;
         }
 
-        public Task<MovieModel> GetByIdAsync(int id)
+        public async Task<MovieModel> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var result = await _movieDAL.GetAsync(x => x.Id == id);
+            return result;
         }
 
-        public Task<MovieModel> UpdateAsync(MovieModel movie)
+        public async Task<MovieModel> UpdateAsync(MovieModel movie)
         {
-            throw new NotImplementedException();
+            var exist = await GetByIdAsync(movie.Id);
+            if (exist != null)
+            {
+                var result = await _movieDAL.UpdateAsync(movie);
+                return result;
+            }
+
+            return null;
         }
     }
 }
