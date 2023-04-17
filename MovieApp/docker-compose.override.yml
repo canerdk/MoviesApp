@@ -9,6 +9,8 @@ services:
     restart: always
     ports:
       - "1433:1433"
+    volumes:
+      - moviedb_volume:/var/opt/mssql/data
     
     
 
@@ -16,7 +18,7 @@ services:
     container_name: movie.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "ConnectionStrings:DefaultConnection=Server=moviedb,1433;Database=MoviesDb; User=sa; Password=admin12345;"
+      - "ConnectionStrings:DefaultConnection=Server=moviedb,1433;Database=MoviesDB;User=sa;Password=admin12345;Trusted_Connection=True;"
     depends_on:
       - moviedb
     ports:

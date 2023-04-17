@@ -9,3 +9,6 @@ services:
     build:
       context: .
       dockerfile: src/Services/Movie/Movie.Api/Dockerfile
+
+volumes:
+  moviedb_volume:
