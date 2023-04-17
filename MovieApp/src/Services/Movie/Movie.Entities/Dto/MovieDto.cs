@@ -1,13 +1,12 @@
-﻿using Movie.Entities.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Movie.Entities.Entities
+namespace Movie.Entities.Dto
 {
-    public class MovieModel : EntityBase
+    public class MovieDto
     {
         public bool Adult { get; set; }
         public string? BackdropPath { get; set; }

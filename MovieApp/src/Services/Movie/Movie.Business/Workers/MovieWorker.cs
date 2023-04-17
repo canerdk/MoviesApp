@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Movie.Business.Abstract;
+using Movie.Entities.Common;
+using Movie.Entities.Dto;
 using Movie.Entities.Entities;
 using System;
 using System.Collections.Generic;
@@ -23,18 +25,32 @@ namespace Movie.Business.Workers
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                var aa = await GetTrendingMovies();
-                await Task.Delay(1000, stoppingToken);
+                var movies = await GetTrendingMovies();
+                if(movies.results.Count > 0)
+                {
+                    await AddRangeAsync(movies.results);
+                }
+                await Task.Delay(10000, stoppingToken);
             }
         }
 
-        private async Task<IEnumerable<MovieModel>> GetTrendingMovies()
+        private async Task<PaginationResponse<MovieDto>> GetTrendingMovies()
         {
             using (IServiceScope scope = _serviceProvider.CreateScope())
             {
                 var service = scope.ServiceProvider.GetRequiredService<IMovieManager>();
-                var result = await service.GetTrendingMoviesFrom();
+                var result = await service.GetPopularMoviesFromTMBD();
 
+                return result;
+            }
+        }
+
+        private async Task<bool> AddRangeAsync(List<MovieModel> models)
+        {
+            using (IServiceScope scope = _serviceProvider.CreateScope())
+            {
+                var service = scope.ServiceProvider.GetRequiredService<IMovieManager>();
+                var result = await service.AddRangeAsync(models);
                 return result;
             }
         }

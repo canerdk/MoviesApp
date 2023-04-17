@@ -1,5 +1,7 @@
 ﻿using Movie.Business.Abstract;
 using Movie.DataAccess.Abstract;
+using Movie.Entities.Common;
+using Movie.Entities.Dto;
 using Movie.Entities.Entities;
 using System;
 using System.Collections.Generic;
@@ -7,6 +9,7 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Movie.Business.Concrete
@@ -42,19 +45,31 @@ namespace Movie.Business.Concrete
             return results;
         }
 
-        public async Task<MovieModel> GetByIdAsync(int id)
+        public async Task<MovieModel> GetByIdAsync(long id)
         {
             var result = await _movieDAL.GetAsync(x => x.Id == id);
             return result;
         }
-
-        public async Task<IEnumerable<MovieModel>> GetTrendingMoviesFrom()
+        
+        public async Task<MovieDto> GetLastMovieFromTMBD()
         {
-            var request = await _httpClient.GetAsync("https://api.themoviedb.org/3/trending/all/week?api_key=de5dbe7795b3878b54cd9acd240aca10");
+            var request = await _httpClient.GetAsync("https://api.themoviedb.org/3/movie/latest?api_key=de5dbe7795b3878b54cd9acd240aca10&language=en-US");
             if (request.IsSuccessStatusCode)
             {
-                var result = await request.Content.ReadAsStringAsync();
-                return null;
+                var result = await request.Content.ReadFromJsonAsync<MovieDto>();
+                return result;
+            }
+
+            return null;
+        }
+
+        public async Task<PaginationResponse<MovieDto>> GetPopularMoviesFromTMBD()
+        {
+            var request = await _httpClient.GetAsync("https://api.themoviedb.org/3/movie/popular?api_key=de5dbe7795b3878b54cd9acd240aca10&language=en-US&page=1");
+            if (request.IsSuccessStatusCode)
+            {
+                var result = await request.Content.ReadFromJsonAsync<PaginationResponse<MovieDto>>();
+                return result;
             }
 
             return null;
