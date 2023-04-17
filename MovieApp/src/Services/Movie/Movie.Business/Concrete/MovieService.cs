@@ -63,9 +63,9 @@ namespace Movie.Business.Concrete
             return null;
         }
 
-        public async Task<PaginationResponse<MovieDto>> GetPopularMoviesFromTMBD()
+        public async Task<PaginationResponse<MovieDto>> GetPopularMoviesFromTMBD(int page)
         {
-            var request = await _httpClient.GetAsync("https://api.themoviedb.org/3/movie/popular?api_key=de5dbe7795b3878b54cd9acd240aca10&language=en-US&page=1");
+            var request = await _httpClient.GetAsync($"https://api.themoviedb.org/3/movie/popular?api_key=de5dbe7795b3878b54cd9acd240aca10&language=en-US&page={page}");
             if (request.IsSuccessStatusCode)
             {
                 var result = await request.Content.ReadFromJsonAsync<PaginationResponse<MovieDto>>();

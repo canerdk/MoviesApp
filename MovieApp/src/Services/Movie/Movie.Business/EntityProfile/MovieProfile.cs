@@ -14,6 +14,7 @@ namespace Movie.Business.EntityProfile
         public MovieProfile()
         {
             CreateMap<MovieDto, MovieModel>().ReverseMap();
+            //CreateMap<MovieDto,MovieModel>();
         }
     }
 }

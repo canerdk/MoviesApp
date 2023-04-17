@@ -13,7 +13,7 @@ namespace Movie.Business.Abstract
         Task<MovieModel> UpdateAsync(MovieModel movie);
 
         Task<MovieDto> GetLastMovieFromTMBD();
-        Task<PaginationResponse<MovieDto>> GetPopularMoviesFromTMBD();
+        Task<PaginationResponse<MovieDto>> GetPopularMoviesFromTMBD(int page);
 
     }
 }
