@@ -11,6 +11,8 @@ namespace Movie.Business.Abstract
         Task<MovieModel> AddAsync(MovieModel movie);
         Task<bool> AddRangeAsync(List<MovieModel> movies);
         Task<MovieModel> UpdateAsync(MovieUpdateDto movie, int id);
+        Task<string> AdviceMovie(int movieId, string email);
+
 
         Task<MovieDto> GetLastMovieFromTMBD();
         Task<PaginationResponse<MovieDto>> GetPopularMoviesFromTMBD(int page);

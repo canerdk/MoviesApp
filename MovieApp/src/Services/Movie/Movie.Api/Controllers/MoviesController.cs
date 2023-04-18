@@ -36,6 +36,13 @@ namespace Movie.Api.Controllers
             return Ok(results);
         }
 
+        [HttpPost("advice")]
+        public async Task<IActionResult> Advice(int movieId, string email)
+        {
+            var result = await _movieManager.AdviceMovie(movieId, email);
+            return Ok(result);
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(MovieUpdateDto movie, int id)
         {

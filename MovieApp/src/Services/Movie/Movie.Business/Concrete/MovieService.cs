@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Movie.Business.Abstract;
+using Movie.Business.Utilities;
 using Movie.DataAccess.Abstract;
 using Movie.Entities.Common;
 using Movie.Entities.Dto;
@@ -20,13 +21,15 @@ namespace Movie.Business.Concrete
         private readonly IMovieDAL _movieDAL;
         private readonly HttpClient _httpClient;
         private readonly IMapper _mapper;
+        private readonly IEmailHelper _emailHelper;
 
-        public MovieManager(IMovieDAL movieDAL, HttpClient httpClient, IMapper mapper)
+        public MovieManager(IMovieDAL movieDAL, HttpClient httpClient, IMapper mapper, IEmailHelper emailHelper)
         {
             _movieDAL = movieDAL;
             _httpClient = httpClient;
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkZTVkYmU3Nzk1YjM4NzhiNTRjZDlhY2QyNDBhY2ExMCIsInN1YiI6IjY0Mzk4NmM0NzY0NmZkMDA3NjIwYzg3MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.fa3HXVQnQaRQh-GkJ-Mr40pIal3T6zORhquqxC2SJrE");
             _mapper = mapper;
+            _emailHelper = emailHelper;
         }
 
         public async Task<MovieModel> AddAsync(MovieModel movie)
@@ -40,6 +43,22 @@ namespace Movie.Business.Concrete
             var result = await _movieDAL.AddRangeAsync(movies);
 
             return result;
+        }
+
+        public async Task<string> AdviceMovie(int movieId, string email)
+        {
+            var movie = await GetByIdAsync(movieId);
+            if (movie == null)
+                return "The movie cannot found!";
+
+            var emailResult = await _emailHelper.SendEmailAsync();
+
+            if(emailResult)
+            {
+                return $"Sent '{movie.Title}' to {email}";
+            }
+
+            return null;
         }
 
         public async Task<PaginationResponse<MovieModel>> GetAllMovieAsync(PaginationRequest pagination)
