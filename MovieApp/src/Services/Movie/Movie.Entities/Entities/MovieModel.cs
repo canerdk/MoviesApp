@@ -29,5 +29,6 @@ namespace Movie.Entities.Entities
         public bool Video { get; set; }
         public long VoteAverage { get; set; }
         public long VoteCount { get; set; }
+        public string? Note { get; set; }
     }
 }

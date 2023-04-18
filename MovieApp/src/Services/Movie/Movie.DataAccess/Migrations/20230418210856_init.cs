@@ -33,7 +33,8 @@ namespace Movie.DataAccess.Migrations
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Video = table.Column<bool>(type: "bit", nullable: false),
                     VoteAverage = table.Column<long>(type: "bigint", nullable: false),
-                    VoteCount = table.Column<long>(type: "bigint", nullable: false)
+                    VoteCount = table.Column<long>(type: "bigint", nullable: false),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

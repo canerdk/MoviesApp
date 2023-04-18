@@ -11,7 +11,7 @@ using Movie.DataAccess;
 namespace Movie.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230418142537_init")]
+    [Migration("20230418210856_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,6 +47,9 @@ namespace Movie.DataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImdbId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OriginalLanguage")

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Movie.Business.Abstract;
+using Movie.Entities.Common;
+using Movie.Entities.Dto;
 
 namespace Movie.Api.Controllers
 {
@@ -16,11 +18,29 @@ namespace Movie.Api.Controllers
         }
 
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
         {
-            var results = await _movieManager.GetAllMovieAsync();
+            var result = await _movieManager.GetByIdAsync(id);
+            if (result != null)
+                return Ok(result);
+
+            return NotFound();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GetAll(PaginationRequest pagination)
+        {
+            var validFilter = new PaginationRequest(pagination.PageIndex, pagination.PageSize);
+            var results = await _movieManager.GetAllMovieAsync(validFilter);
             return Ok(results);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(MovieUpdateDto movie, int id)
+        {
+            var result = await _movieManager.UpdateAsync(movie, id);
+            return Ok(result);
         }
     }
 }

@@ -16,7 +16,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddHttpClient<IMovieManager, MovieManager>();
 
-//builder.Services.AddHostedService<MovieWorker>();
+builder.Services.AddHostedService<MovieWorker>();
 
 builder.Services.AddBusinessService();
 

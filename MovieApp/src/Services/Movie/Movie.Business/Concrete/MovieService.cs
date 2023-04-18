@@ -1,4 +1,5 @@
-﻿using Movie.Business.Abstract;
+﻿using AutoMapper;
+using Movie.Business.Abstract;
 using Movie.DataAccess.Abstract;
 using Movie.Entities.Common;
 using Movie.Entities.Dto;
@@ -18,12 +19,14 @@ namespace Movie.Business.Concrete
     {
         private readonly IMovieDAL _movieDAL;
         private readonly HttpClient _httpClient;
+        private readonly IMapper _mapper;
 
-        public MovieManager(IMovieDAL movieDAL, HttpClient httpClient)
+        public MovieManager(IMovieDAL movieDAL, HttpClient httpClient, IMapper mapper)
         {
             _movieDAL = movieDAL;
             _httpClient = httpClient;
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkZTVkYmU3Nzk1YjM4NzhiNTRjZDlhY2QyNDBhY2ExMCIsInN1YiI6IjY0Mzk4NmM0NzY0NmZkMDA3NjIwYzg3MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.fa3HXVQnQaRQh-GkJ-Mr40pIal3T6zORhquqxC2SJrE");
+            _mapper = mapper;
         }
 
         public async Task<MovieModel> AddAsync(MovieModel movie)
@@ -39,9 +42,9 @@ namespace Movie.Business.Concrete
             return result;
         }
 
-        public async Task<IEnumerable<MovieModel>> GetAllMovieAsync()
+        public async Task<PaginationResponse<MovieModel>> GetAllMovieAsync(PaginationRequest pagination)
         {
-            var results = await _movieDAL.GetAllAsync();
+            var results = await _movieDAL.GetAllPaginationAsync(pagination);
             return results;
         }
 
@@ -75,12 +78,13 @@ namespace Movie.Business.Concrete
             return null;
         }
 
-        public async Task<MovieModel> UpdateAsync(MovieModel movie)
+        public async Task<MovieModel> UpdateAsync(MovieUpdateDto movie, int id)
         {
-            var exist = await GetByIdAsync(movie.Id);
-            if (exist != null)
+            var exist = await GetByIdAsync(id);
+            if (exist != null && movie.Id == id)
             {
-                var result = await _movieDAL.UpdateAsync(movie);
+                var update = _mapper.Map(movie, exist);
+                var result = await _movieDAL.UpdateAsync(update);
                 return result;
             }
 

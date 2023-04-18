@@ -17,7 +17,7 @@ namespace Movie.Business.Workers
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly IMapper _mapper;
-        private PeriodicTimer _timer = new(TimeSpan.FromMilliseconds(1000));
+        private PeriodicTimer _timer = new(TimeSpan.FromMilliseconds(10000));
         private int page = 1;
 
         public MovieWorker(IServiceProvider serviceProvider, IMapper mapper)
@@ -32,9 +32,9 @@ namespace Movie.Business.Workers
             {
                 _timer = new(TimeSpan.FromHours(1));
                 var movies = await GetTrendingMovies();
-                if(movies.results.Count > 0)
+                if(movies.Results.Count > 0)
                 {
-                    await AddRangeAsync(_mapper.Map<List<MovieModel>>(movies.results));
+                    await AddRangeAsync(_mapper.Map<List<MovieModel>>(movies.Results));
                     page++;
                 }
             }

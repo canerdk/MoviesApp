@@ -47,6 +47,9 @@ namespace Movie.DataAccess.Migrations
                     b.Property<string>("ImdbId")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("OriginalLanguage")
                         .HasColumnType("nvarchar(max)");
 
