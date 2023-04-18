@@ -16,16 +16,13 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddHttpClient<IMovieManager, MovieManager>();
 
-builder.Services.AddHostedService<MovieWorker>();
+//builder.Services.AddHostedService<MovieWorker>();
 
 builder.Services.AddBusinessService();
 
 builder.Services.AddDbContext<AppDbContext>(x =>
 {
-    x.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"), opt =>
-    {
-        opt.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName);
-    });
+    x.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"));
 });
 
 

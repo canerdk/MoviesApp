@@ -11,7 +11,7 @@ using Movie.DataAccess;
 namespace Movie.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230417141611_init")]
+    [Migration("20230418142537_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
