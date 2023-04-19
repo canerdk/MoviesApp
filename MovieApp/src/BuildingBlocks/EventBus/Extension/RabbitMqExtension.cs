@@ -23,6 +23,7 @@ namespace EventBus.Extension
                         host.Username(configuration["EventBusSettings:Username"]);
                         host.Password(configuration["EventBusSettings:Password"]);
                     });
+                    cfg.UseMessageRetry(r => r.Immediate(5));
                     cfg.ConfigureEndpoints(ctx, new KebabCaseEndpointNameFormatter(configuration["ServiceName"], false));
                 });
             });

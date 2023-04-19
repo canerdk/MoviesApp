@@ -28,10 +28,10 @@ namespace Movie.Api.Controllers
             return NotFound();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> GetAll(PaginationRequest pagination)
+        [HttpGet]
+        public async Task<IActionResult> GetAll(int pageIndex, int pageSize)
         {
-            var validFilter = new PaginationRequest(pagination.PageIndex, pagination.PageSize);
+            var validFilter = new PaginationRequest(pageIndex, pageSize);
             var results = await _movieManager.GetAllMovieAsync(validFilter);
             return Ok(results);
         }

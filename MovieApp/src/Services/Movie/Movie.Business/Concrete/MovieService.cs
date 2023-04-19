@@ -51,7 +51,7 @@ namespace Movie.Business.Concrete
             if (movie == null)
                 return "The movie cannot found!";
 
-            var emailResult = await _emailHelper.SendEmailAsync();
+            var emailResult = await _emailHelper.SendEmailAsync(email, movie.Title);
 
             if(emailResult)
             {

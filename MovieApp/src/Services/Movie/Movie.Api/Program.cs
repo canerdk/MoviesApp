@@ -5,6 +5,7 @@ using Movie.Business.Workers;
 using Movie.Business.Abstract;
 using Movie.Business.Concrete;
 using EventBus.Extension;
+using Movie.Business.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +28,8 @@ builder.Services.AddDbContext<AppDbContext>(x =>
     x.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"));
 });
 
+builder.Services.Configure<EmailSetting>(builder.Configuration.GetSection("EmailSettings"));
+
 
 var app = builder.Build();
 
@@ -39,7 +42,11 @@ if (app.Environment.IsDevelopment())
     using (var scope = app.Services.CreateScope())
     {
         var appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-        appDbContext.Database.Migrate();
+        var connect = appDbContext.Database.CanConnect();
+        if (connect)
+        {
+            appDbContext.Database.Migrate();
+        }
     }
 }
 

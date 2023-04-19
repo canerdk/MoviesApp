@@ -24,12 +24,6 @@ namespace Movie.Api.Consumers
             if (!result)
                 throw new InvalidOperationException("Movies cannot add");
 
-            if (result)
-            {
-                _logger.LogInformation("Eklendi");
-
-            }
-
             await context.RespondAsync<AddMoviesResult>(new
             {
                Status = result

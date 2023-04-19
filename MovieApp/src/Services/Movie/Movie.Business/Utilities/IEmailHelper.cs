@@ -8,6 +8,6 @@ namespace Movie.Business.Utilities
 {
     public interface IEmailHelper
     {
-        Task<bool> SendEmailAsync();
+        Task<bool> SendEmailAsync(string to, string content);
     }
 }

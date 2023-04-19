@@ -19,14 +19,12 @@ namespace Movie.Business.Workers
     public class MovieWorker : BackgroundService
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly IMapper _mapper;
         private PeriodicTimer _timer = new(TimeSpan.FromMilliseconds(10000));
         private int page = 1;
 
-        public MovieWorker(IServiceProvider serviceProvider, IMapper mapper)
+        public MovieWorker(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
-            _mapper = mapper;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
