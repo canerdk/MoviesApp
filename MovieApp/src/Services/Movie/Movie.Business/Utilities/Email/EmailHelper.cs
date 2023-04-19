@@ -3,7 +3,7 @@ using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
 
-namespace Movie.Business.Utilities
+namespace Movie.Business.Utilities.Email
 {
     public class EmailHelper : IEmailHelper
     {
@@ -16,8 +16,8 @@ namespace Movie.Business.Utilities
 
         public async Task<bool> SendEmailAsync(string to, string content)
         {
-			try
-			{
+            try
+            {
                 var email = new MimeMessage();
                 email.Sender = MailboxAddress.Parse(_emailSetting.Mail);
                 email.To.Add(MailboxAddress.Parse(to));
@@ -37,11 +37,11 @@ namespace Movie.Business.Utilities
                 return result != null ? true : false;
 
             }
-			catch (Exception ex)
-			{
+            catch (Exception ex)
+            {
 
-				throw ex;
-			}
+                throw ex;
+            }
         }
     }
 }

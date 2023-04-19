@@ -1,11 +1,16 @@
+using EventBus.Extension;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Movie.DataAccess;
-using Movie.Business.DependencyResolver;
-using Movie.Business.Workers;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Movie.Business.Abstract;
 using Movie.Business.Concrete;
-using EventBus.Extension;
-using Movie.Business.Utilities;
+using Movie.Business.DependencyResolver;
+using Movie.Business.Middlewares;
+using Movie.Business.Utilities.Email;
+using Movie.Business.Workers;
+using Movie.DataAccess;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,8 +18,32 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Mcrm", Version = "v1" });
+    var securitySchema = new OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        Reference = new OpenApiReference
+        {
+            Type = ReferenceType.SecurityScheme,
+            Id = "Bearer"
+        }
+    };
+    c.AddSecurityDefinition("Bearer", securitySchema);
+    
+    var securityRequirement = new OpenApiSecurityRequirement();
+    securityRequirement.Add(securitySchema, new[] { "Bearer" });
+    c.AddSecurityRequirement(securityRequirement);
+});
+
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 builder.Services.AddMasstransitWithRabbitMQ(builder.Configuration);
 
 builder.Services.AddHttpClient<IMovieManager, MovieManager>();
@@ -30,6 +59,26 @@ builder.Services.AddDbContext<AppDbContext>(x =>
 
 builder.Services.Configure<EmailSetting>(builder.Configuration.GetSection("EmailSettings"));
 
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(o =>
+{
+    o.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidIssuer = builder.Configuration["JWT:Issuer"],
+        ValidAudience = builder.Configuration["JWT:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey
+        (Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"])),
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true
+    };
+});
+
 
 var app = builder.Build();
 
@@ -42,17 +91,16 @@ if (app.Environment.IsDevelopment())
     using (var scope = app.Services.CreateScope())
     {
         var appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-        var connect = appDbContext.Database.CanConnect();
-        if (connect)
-        {
-            appDbContext.Database.Migrate();
-        }
+        appDbContext.Database.Migrate();
     }
 }
 
 //app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseMiddleware<JwtMiddleware>();
 
 app.MapControllers();
 

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Movie.Business.Abstract;
-using Movie.Business.Utilities;
+using Movie.Business.Utilities.Email;
 using Movie.DataAccess.Abstract;
 using Movie.Entities.Common;
 using Movie.Entities.Dto;

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Movie.Business.Utilities
+namespace Movie.Business.Utilities.Email
 {
     public class EmailSetting
     {
