@@ -1,10 +1,18 @@
 version: '3.4'
 
 services:
+  rabbitmq:
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"  
+      - "15672:15672"
+
+
   moviedb:
     container_name: moviedb
     environment:
-        SA_PASSWORD: "A!VeryComplex123Password"
+        SA_PASSWORD: "A!C8^41SPg3kb9"
         ACCEPT_EULA: "Y"
     restart: always
     ports:
@@ -17,8 +25,10 @@ services:
     container_name: movie.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "ConnectionStrings:DefaultConnection=Server=moviedb,1433;Database=MoviesDB;User=sa;Password=A!VeryComplex123Password;MultipleActiveResultSets=true,TrustServerCertificate=true"
+      - "ConnectionStrings:DefaultConnection=Server=moviedb,1433;Database=MoviesDB;User=sa;Password=A!C8^41SPg3kb9;MultipleActiveResultSets=true,TrustServerCertificate=true"
+      - "EventBusSettings:HostAddress=amqp://guest:guest@rabbitmq:5672"
     depends_on:
+      - rabbitmq
       - moviedb
     ports:
       - "5001:80"

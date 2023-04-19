@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\EventBus\EventBus.csproj" />
     <ProjectReference Include="..\Movie.Business\Movie.Business.csproj" />
     <ProjectReference Include="..\Movie.Entities\Movie.Entities.csproj" />
   </ItemGroup>

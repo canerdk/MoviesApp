@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using EventBus.Events;
+using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Movie.Business.Abstract;
@@ -9,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Movie.Business.Workers
@@ -32,11 +35,19 @@ namespace Movie.Business.Workers
             {
                 _timer = new(TimeSpan.FromHours(1));
                 var movies = await GetTrendingMovies();
-                if(movies.Results.Count > 0)
+
+                if(movies.Results.Count() > 0)
                 {
-                    await AddRangeAsync(_mapper.Map<List<MovieModel>>(movies.Results));
-                    page++;
-                }
+                    using (IServiceScope scope = _serviceProvider.CreateScope())
+                    {
+                        var service = scope.ServiceProvider.GetRequiredService<IRequestClient<AddMovies>>();
+                        var response = await service.GetResponse<AddMoviesResult>(new AddMovies { Data = JsonSerializer.Serialize(movies.Results) });
+                        if (response.Message.Status)
+                        {
+                            page++;
+                        }
+                    }
+                }               
             }
         }
 
@@ -51,14 +62,14 @@ namespace Movie.Business.Workers
             }
         }
 
-        private async Task<bool> AddRangeAsync(List<MovieModel> models)
-        {
-            using (IServiceScope scope = _serviceProvider.CreateScope())
-            {
-                var service = scope.ServiceProvider.GetRequiredService<IMovieManager>();
-                var result = await service.AddRangeAsync(models);
-                return result;
-            }
-        }
+        //private async Task<bool> AddRangeAsync(List<MovieModel> models)
+        //{
+        //    using (IServiceScope scope = _serviceProvider.CreateScope())
+        //    {
+        //        var service = scope.ServiceProvider.GetRequiredService<IMovieManager>();
+        //        var result = await service.AddRangeAsync(models);
+        //        return result;
+        //    }
+        //}
     }
 }

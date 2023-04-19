@@ -10,6 +10,7 @@ COPY ["src/Services/Movie/Movie.Api/Movie.Api.csproj", "src/Services/Movie/Movie
 COPY ["src/Services/Movie/Movie.Business/Movie.Business.csproj", "src/Services/Movie/Movie.Business/"]
 COPY ["src/Services/Movie/Movie.DataAccess/Movie.DataAccess.csproj", "src/Services/Movie/Movie.DataAccess/"]
 COPY ["src/Services/Movie/Movie.Entities/Movie.Entities.csproj", "src/Services/Movie/Movie.Entities/"]
+COPY ["src/BuildingBlocks/EventBus/EventBus.csproj", "src/BuildingBlocks/EventBus/"]
 RUN dotnet restore "src/Services/Movie/Movie.Api/Movie.Api.csproj"
 COPY . .
 WORKDIR "/src/src/Services/Movie/Movie.Api"

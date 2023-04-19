@@ -4,6 +4,9 @@ services:
   moviedb:
     image: mcr.microsoft.com/mssql/server:2022-latest
 
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+
   movie.api:
     image: ${DOCKER_REGISTRY-}movieapi
     build:

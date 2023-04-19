@@ -4,6 +4,7 @@ using Movie.Business.DependencyResolver;
 using Movie.Business.Workers;
 using Movie.Business.Abstract;
 using Movie.Business.Concrete;
+using EventBus.Extension;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddMasstransitWithRabbitMQ(builder.Configuration);
 
 builder.Services.AddHttpClient<IMovieManager, MovieManager>();
 
