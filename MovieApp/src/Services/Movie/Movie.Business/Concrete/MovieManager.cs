@@ -102,8 +102,10 @@ namespace Movie.Business.Concrete
             var exist = await GetByIdAsync(id);
             if (exist != null && movie.Id == id)
             {
-                var update = _mapper.Map(movie, exist);
-                var result = await _movieDAL.UpdateAsync(update);
+                exist.VoteCount += 1;
+                exist.VoteAverage += movie.Vote;
+                exist.Note = movie.Note;
+                var result = await _movieDAL.UpdateAsync(exist);
                 return result;
             }
 

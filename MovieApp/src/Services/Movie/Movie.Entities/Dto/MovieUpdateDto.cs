@@ -13,6 +13,6 @@ namespace Movie.Entities.Dto
         public int Id { get; set; }
         public string Note { get; set; }
         [Range(1,10, ErrorMessage = "Puan 1 ile 10 arasında olabilir.")]
-        public int VoteCount { get; set; }
+        public int Vote { get; set; }
     }
 }
